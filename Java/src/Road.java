@@ -35,11 +35,13 @@ public class Road {
     }
 
     public void addVehicleToList(Vehicle vehicle){
+        vehicle.speedlimit = this.speedLimit;
         if(vehiclesOnRoad.size() == 0){
             vehiclesOnRoad.add(vehicle);
         }else{
             vehiclesOnRoad.add(vehicle);
-            vehicle.nextVehicleDistance = getDistanceBetweenPoints(getVehicleInFront(vehicle).getPosition(),vehicle.getPosition());
+            vehicle.setVehicleInFront(getVehicleInFront(vehicle));
+
         }
     }
     public double getSmallerNumber(double a, double b){
@@ -51,7 +53,7 @@ public class Road {
         return getDistanceBetweenPoints(vehicle.getPosition(),getVehicleInFront(vehicle).getPosition());
     }
 
-    public double getDistanceBetweenPoints(double[] a, double[] b){
+    public static double getDistanceBetweenPoints(double[] a, double[] b){
         return Math.sqrt(Math.pow(a[0] - b[0],2) + Math.pow(a[1] - b[1],2));
     }
 }
