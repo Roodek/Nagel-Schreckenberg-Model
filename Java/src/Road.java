@@ -44,6 +44,10 @@ public class Road {
 
         }
     }
+
+    public void addVehicleOnTop(Vehicle vehicle){
+        vehiclesOnRoad.add(0,vehicle);
+    }
     public double getSmallerNumber(double a, double b){
         if(a<b){return a;}
         else return b;

@@ -21,15 +21,20 @@ public class Vehicle {
     }
 
     public void updateSpeed(){
+        updateSafeDistance();
         if(this.nextVehicleDistance == 0 && this.speed < this.speedlimit ){
             this.accelerate();
             return;
         }
-        if(this.nextVehicleDistance >= this.safeDistance && this.speed < this.speedlimit )
+        if(this.nextVehicleDistance == 0 && this.speed == this.speedlimit) {
+            return;
+        }
+        if(this.nextVehicleDistance >= this.safeDistance )//&& this.speed < this.speedlimit )
             this.speed = this.accelerate();
-        else{
+        else if(this.nextVehicleDistance < this.safeDistance){
             this.speed = this.slowDown();
         }
+
 
     }
 
@@ -38,6 +43,9 @@ public class Vehicle {
         this.safeDistance = safeDistance;
     }
 
+    public void updateSafeDistance(){
+        this.safeDistance = this.speed;
+    }
     public double accelerate(){
         return Math.min(this.speedlimit, this.speed+=1);
     }
@@ -56,6 +64,10 @@ public class Vehicle {
 
     public void TestMove(){
         double[] newPos = {this.pos[0]-this.speed,this.pos[1]};
+        this.setPosition(newPos);
+    }
+    public void TestMoveStop(){
+        double[] newPos = {this.pos[0]+this.speed,this.pos[1]};
         this.setPosition(newPos);
     }
 
