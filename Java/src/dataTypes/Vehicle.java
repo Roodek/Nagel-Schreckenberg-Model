@@ -1,23 +1,28 @@
+package dataTypes;
 
 
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 
 public class Vehicle {
 
-    double[] pos = new double[2];
+    private double[] pos;
 
-    double speed;
-    double slowDownProbability = 0;
-    double laneChangeProbability = 0;
-    double nextVehicleDistance ;
+    private double speed;
+    private double slowDownProbability = 0;
+    private double laneChangeProbability = 0;
+    private double nextVehicleDistance ;
 
     double speedlimit;
-    double safeDistance;
-    Vehicle vehicleInFront;
+    private double safeDistance;
+    private Vehicle vehicleInFront;
+    private Road road;
+
+    private Color color = Color.rgb((int)(Math.random() * 255), (int)(Math.random() * 255),(int)(Math.random() * 255));
 
     public Vehicle(double[] pos, double speed){
         this.pos = pos;
         this.speed = speed;
-
     }
 
     public void updateSpeed(){
@@ -29,7 +34,7 @@ public class Vehicle {
         if(this.nextVehicleDistance == 0 && this.speed == this.speedlimit) {
             return;
         }
-        if(this.nextVehicleDistance >= this.safeDistance )//&& this.speed < this.speedlimit )
+        if(this.nextVehicleDistance >= this.safeDistance && this.speed < this.speedlimit)//&& this.speed < this.speedlimit )
             this.speed = this.accelerate();
         else if(this.nextVehicleDistance < this.safeDistance){
             this.speed = this.slowDown();
@@ -43,16 +48,19 @@ public class Vehicle {
         this.safeDistance = safeDistance;
     }
 
-    public void updateSafeDistance(){
+    private void updateSafeDistance(){
         this.safeDistance = this.speed;
     }
-    public double accelerate(){
+    private double accelerate(){
         return Math.min(this.speedlimit, this.speed+=1);
     }
-    public double slowDown(){
+    private double slowDown(){
         return Math.max(0,this.speed-=1);
     }
 
+    public double[] getPos() {
+        return pos;
+    }
 
     public void calcNextVehicleDistance(){
         if(this.vehicleInFront == null){
@@ -63,7 +71,7 @@ public class Vehicle {
     }
 
     public void TestMove(){
-        double[] newPos = {this.pos[0]-this.speed,this.pos[1]};
+        double[] newPos = {this.pos[0]+this.speed,this.pos[1]};
         this.setPosition(newPos);
     }
     public void TestMoveStop(){
@@ -71,10 +79,10 @@ public class Vehicle {
         this.setPosition(newPos);
     }
 
-    public void setPosition(double[] pos){
+    private void setPosition(double[] pos){
         this.pos = pos;
     }
-    public double[] getPosition() { return this.pos; }
+    double[] getPosition() { return this.pos; }
 
     public void setNextVehicleDistance(double nextVehicleDistance) {
         this.nextVehicleDistance = nextVehicleDistance;
@@ -98,5 +106,20 @@ public class Vehicle {
 
     public double getSlowDownProbability() {
         return slowDownProbability;
+    }
+
+    public void setRoad(Road road) {
+        this.road = road;
+    }
+    public Road getRoad() {
+        return this.road;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public double getSpeed() {
+        return speed;
     }
 }

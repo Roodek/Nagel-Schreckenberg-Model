@@ -1,10 +1,12 @@
+package dataTypes;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Crossroad {
 
-    double[] pos = new double[2];
-    List<Road> roadList = new ArrayList<Road>();
+    private double[] pos = new double[2];
+    private List<Road> roadList = new ArrayList<>();
 
     public Crossroad(double[] pos){
         this.pos = pos;
