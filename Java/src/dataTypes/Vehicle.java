@@ -11,7 +11,8 @@ public class Vehicle {
     private double speed;
     private double slowDownProbability = 0;
     private double laneChangeProbability = 0;
-    private double nextVehicleDistance ;
+    private double nextVehicleDistance = 100;
+    int scale;
 
     double speedlimit;
     private double safeDistance;
@@ -20,21 +21,22 @@ public class Vehicle {
 
     private Color color = Color.rgb((int)(Math.random() * 255), (int)(Math.random() * 255),(int)(Math.random() * 255));
 
-    public Vehicle(double[] pos, double speed){
+    public Vehicle(double[] pos, double speed, int scale){
         this.pos = pos;
         this.speed = speed;
+        this.scale = scale;
     }
 
     public void updateSpeed(){
         updateSafeDistance();
-        if(this.nextVehicleDistance == 0 && this.speed < this.speedlimit ){
-            this.accelerate();
+        //if (this.nextVehicleDistance<5) this.speed=0;
+        if (this.vehicleInFront == null)
+        {
+            if (this.speed > this.speedlimit || this.safeDistance > this.nextVehicleDistance) this.speed = this.slowDown();
+            else this.speed = this.accelerate();
             return;
         }
-        if(this.nextVehicleDistance == 0 && this.speed == this.speedlimit) {
-            return;
-        }
-        if(this.nextVehicleDistance >= this.safeDistance && this.speed < this.speedlimit)//&& this.speed < this.speedlimit )
+        else if(this.nextVehicleDistance >= this.safeDistance && this.speed < this.speedlimit)//&& this.speed < this.speedlimit )
             this.speed = this.accelerate();
         else if(this.nextVehicleDistance < this.safeDistance){
             this.speed = this.slowDown();
@@ -49,14 +51,15 @@ public class Vehicle {
     }
 
     private void updateSafeDistance(){
-        this.safeDistance = this.speed;
+        double x=0;
+        if(this.vehicleInFront != null) x=this.vehicleInFront.safeDistance/2.0;
+        this.safeDistance = 10 - x + this.speed*this.speed/(2*(20/this.scale));
     }
     private double accelerate(){
-        return Math.min(this.speedlimit, this.speed+=1);
+        double acceleration = Math.max(0, 5.5/this.scale-(this.speed*this.speed*(0.00027/this.scale)));
+        return Math.min(this.speedlimit, this.speed+=acceleration);
     }
-    private double slowDown(){
-        return Math.max(0,this.speed-=1);
-    }
+    private double slowDown(){ return Math.max(0,this.speed-=5.5/this.scale); }
 
     public double[] getPos() {
         return pos;
@@ -64,14 +67,14 @@ public class Vehicle {
 
     public void calcNextVehicleDistance(){
         if(this.vehicleInFront == null){
-            this.nextVehicleDistance = 0;
+            this.nextVehicleDistance = Road.getDistanceBetweenPoints(this.getPosition(),this.road.getEnd());
         }else{
             this.nextVehicleDistance = Road.getDistanceBetweenPoints(this.getPosition(),vehicleInFront.getPosition());
         }
     }
 
     public void TestMove(){
-        double[] newPos = {this.pos[0]+this.speed,this.pos[1]};
+        double[] newPos = {this.pos[0]+this.speed/this.scale,this.pos[1]};
         this.setPosition(newPos);
     }
     public void TestMoveStop(){

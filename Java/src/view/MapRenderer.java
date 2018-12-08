@@ -55,12 +55,12 @@ public class MapRenderer extends Pane {
         circle.setFill(v.getColor());
         circle.setRadius(4);
         circle.setStroke(Color.TRANSPARENT);
-        circle.setCenterY(v.getRoad().getY());
-        circle.setCenterX(v.getPos()[0] + v.getRoad().getX());
-        Text text = new Text(v.getSpeed() + "");
-        text.setLayoutX(v.getPos()[0] + v.getRoad().getX());
+        circle.setCenterY(v.getRoad().getBegin()[1]);
+        circle.setCenterX(v.getPos()[0] + v.getRoad().getBegin()[0]);
+        Text text = new Text((int)(v.getSpeed()*3.6) + "km/h");
+        text.setLayoutX(v.getPos()[0] + v.getRoad().getBegin()[0]);
         text.setFont(new Font(10));
-        text.setLayoutY(v.getRoad().getY() - 10);
+        text.setLayoutY(v.getRoad().getBegin()[1] - 10);
         getChildren().add(text);
         return circle;
     }

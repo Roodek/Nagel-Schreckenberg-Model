@@ -6,7 +6,7 @@ import java.util.List;
 public class Road {
     private double speedLimit;
     private List<Vehicle> vehiclesOnRoad;
-    private double x, y;
+    private double[] Begin, End;
 
     public Road(double speedLimit){
         this.speedLimit =speedLimit;
@@ -64,17 +64,14 @@ public class Road {
         return Math.sqrt(Math.pow(a[0] - b[0],2) + Math.pow(a[1] - b[1],2));
     }
 
-    public void setY(double y){
-        this.y = y;
+    public void setCordinates(double[] a, double[] b){
+        this.Begin = a; this.End = b;
     }
-    public void setX(double x){
-        this.x = x;
+    public double[] getBegin() {
+        return Begin;
     }
-    public double getY() {
-        return y;
+    public double[] getEnd() {
+        return End;
     }
 
-    public double getX() {
-        return x;
-    }
 }

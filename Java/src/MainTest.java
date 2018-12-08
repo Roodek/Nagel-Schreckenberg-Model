@@ -17,30 +17,31 @@ public class MainTest extends Application {
 
         MapRenderer renderer = new MapRenderer();
 
-        double[] a = {2.0,50.0};
-        double[] b = {3.0,50.0};
-        double[] c = {6.0,50.0};
+        double[] a = {16.0,50.0};
+        double[] b = {14.0,50.0};
+        double[] c = {12.0,50.0};
         double[] d = {10.0,50.0};
+        double[] f = {300.0,50.0};
+        int scale = 10; // Nie moze zejsc ponizej 10
 
 
-
-        Vehicle vehicle1 = new Vehicle(a,5);
-        Vehicle vehicle2 = new Vehicle(b,1);
-        Vehicle vehicle3 = new Vehicle(c,8);
-        Vehicle vehicle4 = new Vehicle(d,6);
+        Vehicle vehicle1 = new Vehicle(a,0, scale);
+        Vehicle vehicle2 = new Vehicle(b,0, scale);
+        Vehicle vehicle3 = new Vehicle(c,0, scale);
+        Vehicle vehicle4 = new Vehicle(d,0, scale);
 
 
 
         Vehicle[] carArray = new Vehicle[]{vehicle1,vehicle2,vehicle3,vehicle4};
 
 
-        Road road = new Road(10);
+        Road road = new Road(14);
         road.addVehicleToList(vehicle1);
         road.addVehicleToList(vehicle2);
         road.addVehicleToList(vehicle3);
         road.addVehicleToList(vehicle4);
-        road.setX(10);
-        road.setY(50);
+        road.setCordinates(a, f);
+
 
         vehicle1.setRoad(road);
         vehicle2.setRoad(road);
@@ -51,7 +52,7 @@ public class MainTest extends Application {
         renderer.addVehicle(vehicle3);
         renderer.addVehicle(vehicle4);
 
-        renderer.addRoad(road, 10,50,400,50);
+        renderer.addRoad(road, 10,50,300,50);
         renderer.showStage();
 
         //going test
@@ -61,12 +62,12 @@ public class MainTest extends Application {
                     j.updateSpeed();
                     j.TestMove();
                     j.calcNextVehicleDistance();
-                    System.out.print(Arrays.asList(carArray).indexOf(j) + ". speed: " + j.getSpeed() +"; ");
+                    System.out.print(Arrays.asList(carArray).indexOf(j) + ". speed: " + (int)(j.getSpeed()*3.6) +"; ");
                 }
                 System.out.println();
                 Platform.runLater(renderer::refresh);
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(1000/scale);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

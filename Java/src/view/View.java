@@ -12,7 +12,7 @@ public class View extends Stage {
         super();
         this.setScene(scene);
         scene.setFill(Color.WHITE);
-        this.setMinWidth(500);
+        this.setMinWidth(1000);
         this.setMinHeight(500);
     }
 
