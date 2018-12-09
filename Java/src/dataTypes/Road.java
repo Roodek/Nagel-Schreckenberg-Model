@@ -1,5 +1,6 @@
 package dataTypes;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -7,10 +8,12 @@ public class Road {
     private double speedLimit;
     private List<Vehicle> vehiclesOnRoad;
     private double[] Begin, End;
+    private List<Crossroad> crossroads;
 
     public Road(double speedLimit){
         this.speedLimit =speedLimit;
         vehiclesOnRoad = new LinkedList<>();
+        crossroads = new ArrayList<>();
     }
 
     public double getClosestVehicle(Vehicle vehicle){
@@ -37,14 +40,19 @@ public class Road {
         vehiclesOnRoad.remove(vehicle);
     }
 
+    public void addCrossroad(Crossroad crossroad){
+        this.crossroads.add(crossroad);
+    }
+
     public void addVehicleToList(Vehicle vehicle){
         vehicle.speedlimit = this.speedLimit;
         if(vehiclesOnRoad.size() == 0){
             vehiclesOnRoad.add(vehicle);
+            vehicle.setRoad(this);
         }else{
             vehiclesOnRoad.add(vehicle);
             vehicle.setVehicleInFront(getVehicleInFront(vehicle));
-
+            vehicle.setRoad(this);
         }
     }
 
@@ -66,6 +74,9 @@ public class Road {
 
     public void setCordinates(double[] a, double[] b){
         this.Begin = a; this.End = b;
+    }
+    public double getSpeedLimit(){
+        return this.speedLimit;
     }
     public double[] getBegin() {
         return Begin;

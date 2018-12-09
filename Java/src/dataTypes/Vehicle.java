@@ -4,6 +4,8 @@ package dataTypes;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
+import java.util.Random;
+
 public class Vehicle {
 
     private double[] pos;
@@ -26,6 +28,7 @@ public class Vehicle {
         this.speed = speed;
         this.scale = scale;
     }
+    public Vehicle(){}
 
     public void updateSpeed(){
         updateSafeDistance();
@@ -77,10 +80,17 @@ public class Vehicle {
         double[] newPos = {this.pos[0]+this.speed/this.scale,this.pos[1]};
         this.setPosition(newPos);
     }
-    public void TestMoveStop(){
-        double[] newPos = {this.pos[0]+this.speed,this.pos[1]};
-        this.setPosition(newPos);
+    public void changeRoadAtCrossroad(Crossroad crossroad){
+        if(this.pos[0] == crossroad.getPos()[0] && this.pos[1] == crossroad.getPos()[1]){
+            Crossroad crossroadWithoutEnterRoad = crossroad;
+            this.road.popVehicleFromList(this);
+            crossroadWithoutEnterRoad.getRoadList().remove(this.road);
+            Road newRoad = crossroadWithoutEnterRoad.getRandomRoadFromList(crossroadWithoutEnterRoad.getRoadList());
+            this.setRoad(newRoad);
+        }
     }
+
+
 
     private void setPosition(double[] pos){
         this.pos = pos;
@@ -112,6 +122,7 @@ public class Vehicle {
     }
 
     public void setRoad(Road road) {
+        road.addVehicleToList(this);
         this.road = road;
     }
     public Road getRoad() {
