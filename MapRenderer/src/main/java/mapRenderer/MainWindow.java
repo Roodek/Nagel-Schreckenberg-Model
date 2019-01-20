@@ -105,13 +105,13 @@ class MainWindow extends Stage {
         //todo: zaktualizować przelicznik prędkości(odleglosci miedzy pojazdami i do konca drogi)
         tasks.add(
                 executorService.submit(() -> {
-                    int spawnFlag = 2;
+                    int spawnFlag = 5;//ile samochodow jest wygenerowanych
                     int iterations = 0;
 
                     while(true){
                         System.out.println("iteration: "+iterations);
                         for(Street street:streets){
-                            if(street.isGenerator() && spawnFlag > 0 && iterations%50 == 0 ){
+                            if(street.isGenerator() && spawnFlag > 0 && iterations%30 == 0 ){
                                 System.out.println("spawned");
                                 street.generateCar(spawnFlag);
                                 spawnFlag -= 1;
@@ -125,7 +125,7 @@ class MainWindow extends Stage {
                                 if(nextIndex >= coords.size()){
                                     nextIndex = coords.size()-1;
                                 }
-                                System.out.println("coords from: "+index+" coords to: "+nextIndex+"id: "+vehicle.id);
+                                System.out.println("coords from: "+index+" coords to: "+nextIndex+"id: "+vehicle.id+ "distance from next car: "+ vehicle.getNextVehicleDistance());
                                 vehicle.setPosition(coords.get(nextIndex));
 
                                 drawCircle(vehicle.getPosition());
@@ -157,7 +157,7 @@ class MainWindow extends Stage {
         carGC.setStroke(Color.RED);
         carGC.setFill(Color.RED);
         carGC.fillOval(1400,122, 10,10);
-        carGC.fillOval(coord.getX(), coord.getY(), 6, 6);
+        carGC.fillOval(coord.getX(), coord.getY(), 8, 8);
     }
 
 }

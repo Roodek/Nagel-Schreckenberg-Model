@@ -75,7 +75,7 @@ public class Street {
     public void generateCar(int id){
         Vehicle vehicle = new Vehicle();
         vehicle.setStreet(this);
-        vehicle.setSpeed(20);
+        vehicle.setSpeed(10);
         vehicle.id = id;
         vehiclesOnRoad.add(vehicle);
     }

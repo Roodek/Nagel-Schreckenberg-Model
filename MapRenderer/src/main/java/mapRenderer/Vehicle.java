@@ -10,7 +10,7 @@ public class Vehicle {
     private double speed;
     private double slowDownProbability = 0;
     private double laneChangeProbability = 0;
-    private double nextVehicleDistance = 100;
+    private double nextVehicleDistance = 0;
     int id;
 
     double speedlimit;
@@ -114,10 +114,12 @@ public class Vehicle {
         this.street = street;
         this.speedlimit = street.getSpeed();
         LinkedList<Coord> coords = new LinkedList<>(street.getCoords());
+        this.setPosition(coords.getFirst());
         if(street.getVehiclesOnRoad().size() > 0) {
             this.vehicleInFront = street.getVehiclesOnRoad().getLast();
+            calcNextVehicleDistance();
         }
-        this.setPosition(coords.getFirst());
+
     }
     public Street getStreet() {
         return this.street;
@@ -130,6 +132,8 @@ public class Vehicle {
     public void setSpeed(double speed){
         this.speed = speed;
     }
+
+    public double getNextVehicleDistance(){return this.nextVehicleDistance;}
 
     static double getDistanceBetweenPoints(Coord a, Coord b){
         return Math.sqrt(Math.pow(a.getX() - b.getX(),2) + Math.pow(a.getY() - b.getY(),2));
