@@ -15,7 +15,7 @@ public class Vehicle {
 
     double speedlimit;
     private double safeDistance;
-    private Vehicle vehicleInFront;
+    public Vehicle vehicleInFront;
     private Street street;
 
 
@@ -28,35 +28,36 @@ public class Vehicle {
     public Vehicle(){}
 
     public void updateSpeed(){
-        //updateSafeDistance();
-        //if (this.nextVehicleDistance<5) this.speed=0;
-        if (this.vehicleInFront == null)
-        {
-            if (this.speed > this.speedlimit || this.safeDistance > this.nextVehicleDistance) this.speed = this.slowDown();
-            else this.speed = this.accelerate();
+        updateSafeDistance();
+        if(this.speed > street.getSpeedLimit()){
+            this.slowDown();
             return;
         }
-        else if(this.nextVehicleDistance >= this.safeDistance && this.speed < this.speedlimit)//&& this.speed < this.speedlimit )
-            this.speed = this.accelerate();
-        else if(this.nextVehicleDistance < this.safeDistance){
-            this.speed = this.slowDown();
+        if (this.vehicleInFront == null && this.speed <= street.getSpeedLimit()){
+            this.accelerate();
+            return;
         }
+
+        if (this.nextVehicleDistance >= this.safeDistance){
+            this.accelerate();
+        }else {
+            this.slowDown();
+        }
+
+
+
     }
 
-    public void setSafeDistance(double safeDistance) {
-        this.safeDistance = safeDistance;
-    }
 
     private void updateSafeDistance(){
-        double x=0;
-        if(this.vehicleInFront != null) x=this.vehicleInFront.safeDistance/2.0;
-        this.safeDistance = 10 - x + this.speed*this.speed/(2*(20/this.id));
+        calcNextVehicleDistance();
+        this.safeDistance = this.speed;
     }
     private double accelerate(){
-        double acceleration = Math.max(0, this.speed+1);
+        double acceleration = Math.max(0,2);
         return Math.min(this.speedlimit, this.speed+=acceleration);
     }
-    private double slowDown(){ return Math.max(0,this.speed-=5.5/this.id); }
+    private double slowDown(){ return Math.max(0,this.speed-=10); }
 
 
     public void calcNextVehicleDistance(){
@@ -70,14 +71,6 @@ public class Vehicle {
     public void changeRoadAtCrossroad(Crossroad crossroad){
         if(this.pos.getX() == crossroad.getCoord().getX() && this.pos.getY() == crossroad.getCoord().getY()){
             this.street.popVehicleFromStreet(this);
-            Street street ;
-            if (crossroad.getFirstStreet().equals(this.street)){
-                street = crossroad.getSecondStreet();
-            }
-            else{
-                street = crossroad.getFirstStreet();
-            }
-            this.setStreet(street);
         }
     }
 
@@ -90,17 +83,11 @@ public class Vehicle {
         this.nextVehicleDistance = nextVehicleDistance;
     }
 
-    public void setLaneChangeProbability(double laneChangeProbability) {
-        this.laneChangeProbability = laneChangeProbability;
-    }
 
     public void setSlowDownProbability(double slowDownProbability) {
         this.slowDownProbability = slowDownProbability;
     }
-    public void setVehicleInFront(Vehicle vehicle){
-        this.vehicleInFront = vehicle;
-        this.nextVehicleDistance = getDistanceBetweenPoints(this.getPosition(),vehicle.getPosition());
-    }
+
 
     public double getLaneChangeProbability() {
         return laneChangeProbability;
@@ -145,4 +132,5 @@ public class Vehicle {
         }
 
     }
+
 }
