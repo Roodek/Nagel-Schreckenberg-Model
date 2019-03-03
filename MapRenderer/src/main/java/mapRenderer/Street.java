@@ -85,7 +85,10 @@ public class Street {
         this.vehiclesOnRoad.add(vehicle);
     }
     public void popVehicleFromStreet(Vehicle vehicle){
+        int currCar = vehiclesOnRoad.indexOf(vehicle);
+
         this.vehiclesOnRoad.remove(vehicle);
+
     }
 
     public double getSpeedLimit() {

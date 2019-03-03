@@ -15,7 +15,7 @@ public class Vehicle {
 
     double speedlimit;
     private double safeDistance;
-    private Vehicle vehicleInFront;
+    public Vehicle vehicleInFront;
     private Street street;
 
 
@@ -33,12 +33,12 @@ public class Vehicle {
             this.slowDown();
             return;
         }
-        if (this.nextVehicleDistance == 0 && this.speed <= street.getSpeedLimit()){
+        if (this.vehicleInFront == null && this.speed <= street.getSpeedLimit()){
             this.accelerate();
             return;
         }
 
-        if (this.nextVehicleDistance > this.safeDistance){
+        if (this.nextVehicleDistance >= this.safeDistance){
             this.accelerate();
         }else {
             this.slowDown();
@@ -46,19 +46,18 @@ public class Vehicle {
 
 
 
-
     }
 
 
     private void updateSafeDistance(){
-
-        this.safeDistance = this.speed/2;
+        calcNextVehicleDistance();
+        this.safeDistance = this.speed;
     }
     private double accelerate(){
         double acceleration = Math.max(0,2);
         return Math.min(this.speedlimit, this.speed+=acceleration);
     }
-    private double slowDown(){ return Math.max(0,this.speed-=5.5/2.5); }
+    private double slowDown(){ return Math.max(0,this.speed-=10); }
 
 
     public void calcNextVehicleDistance(){
@@ -84,17 +83,11 @@ public class Vehicle {
         this.nextVehicleDistance = nextVehicleDistance;
     }
 
-    public void setLaneChangeProbability(double laneChangeProbability) {
-        this.laneChangeProbability = laneChangeProbability;
-    }
 
     public void setSlowDownProbability(double slowDownProbability) {
         this.slowDownProbability = slowDownProbability;
     }
-    public void setVehicleInFront(Vehicle vehicle){
-        this.vehicleInFront = vehicle;
-        this.nextVehicleDistance = getDistanceBetweenPoints(this.getPosition(),vehicle.getPosition());
-    }
+
 
     public double getLaneChangeProbability() {
         return laneChangeProbability;

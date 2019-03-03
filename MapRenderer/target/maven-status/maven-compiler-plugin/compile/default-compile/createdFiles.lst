@@ -1,4 +1,5 @@
 mapRenderer\Crossroad.class
+mapRenderer\ChartsView.class
 mapRenderer\mapCreator\MainWindowMapCreating.class
 mapRenderer\JsonData.class
 mapRenderer\Vehicle.class
@@ -6,8 +7,10 @@ mapRenderer\mapCreator\StreetsController$2.class
 mapRenderer\Street.class
 mapRenderer\mapCreator\StreetsController.class
 mapRenderer\MainWindow.class
+mapRenderer\mapCreator\StreetsController$3.class
 mapRenderer\Main.class
 mapRenderer\MapStartMenu.class
+mapRenderer\utils\StreetQuantity.class
 mapRenderer\mapCreator\CrossroadsController.class
 mapRenderer\utils\Coord.class
 mapRenderer\mapCreator\StreetsController$1.class
